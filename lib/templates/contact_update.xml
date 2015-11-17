@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
+     epp-1.0.xsd">
+  <command>
+    <update>
+      <contact:update
+       xmlns:contact="urn:ietf:params:xml:ns:contact-1.0"
+       xsi:schemaLocation="urn:ietf:params:xml:ns:contact-1.0
+       contact-1.0.xsd">
+        <contact:id>$(client_id)$</contact:id>
+       <contact:chg>
+          <contact:postalInfo type="loc">
+              <contact:addr>
+                  <contact:street>$(client_street_1)$</contact:street>
+                  <contact:street>$(client_street_2)$</contact:street>
+                  <contact:city>$(client_city)$</contact:city>
+                  <contact:sp>$(client_state)$</contact:sp>
+                  <contact:pc>$(client_zipcode)$</contact:pc>
+                  <contact:cc>$(client_country)$</contact:cc>
+              </contact:addr>
+          </contact:postalInfo>
+          <contact:voice>$(client_phone)$</contact:voice>
+          <contact:email>$(client_email)$</contact:email>
+          <contact:authInfo>
+              <contact:pw>$(password)$</contact:pw>
+          </contact:authInfo>
+      </contact:chg>
+      </contact:update>
+    </update>
+    <clTRID>$(clTRID)$</clTRID>
+  </command>
+</epp>

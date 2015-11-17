@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
+     epp-1.0.xsd">
+  <command>
+    <create>
+      <contact:create
+       xmlns:contact="urn:ietf:params:xml:ns:contact-1.0"
+       xsi:schemaLocation="urn:ietf:params:xml:ns:contact-1.0
+       contact-1.0.xsd">
+      <contact:id>$(org_id)$</contact:id>
+      <contact:postalInfo type="loc">
+        <contact:name>$(org_name)$</contact:name>
+        <contact:addr>
+          <contact:street>$(org_street_1)$</contact:street>
+          <contact:street>$(org_street_2)$</contact:street>
+          <contact:city>$(org_city)$</contact:city>
+          <contact:sp>$(org_state)$</contact:sp>
+          <contact:pc>$(org_zipcode)$</contact:pc>
+          <contact:cc>$(org_country)$</contact:cc>
+        </contact:addr>
+      </contact:postalInfo>
+      <contact:voice>$(org_phone)$</contact:voice>
+      <contact:email>$(org_email)$</contact:email>
+      <contact:authInfo>
+        <contact:pw>$(password)$</contact:pw>
+      </contact:authInfo>
+      </contact:create>
+    </create>
+    <extension>
+      <brorg:create
+        xmlns:brorg='urn:ietf:params:xml:ns:brorg-1.0'
+        xsi:schemaLocation='urn:ietf:params:xml:ns:brorg-1.0
+			      brorg-1.0.xsd'>
+        <brorg:organization>$(org_id)$</brorg:organization>
+        <brorg:responsible>$(contact_name)$</brorg:responsible>
+        <brorg:contact type="admin">$(contact_id)$</brorg:contact>
+        <brorg:contact type="tech">$(contact_id)$</brorg:contact>
+        <brorg:contact type="billing">$(contact_id)$</brorg:contact>
+      </brorg:create>
+    </extension>
+    <clTRID>$(clTRID)$</clTRID>
+  </command>
+</epp>

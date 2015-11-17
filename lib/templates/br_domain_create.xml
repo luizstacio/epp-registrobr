@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
+     epp-1.0.xsd">
+  <command>
+    <create>
+      <domain:create
+       xmlns:domain="urn:ietf:params:xml:ns:domain-1.0"
+       xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0
+       domain-1.0.xsd">
+        <domain:name>$(domain_name)$</domain:name>
+        <domain:period unit="y">$(domain_period)$</domain:period>
+        <domain:ns>
+          <domain:hostAttr>
+            <domain:hostName>$(dns_1)$</domain:hostName>
+          </domain:hostAttr>
+          <domain:hostAttr>
+            <domain:hostName>$(dns_2)$</domain:hostName>
+            <!-- @if ( '$(dns_2_v4)$' ) --><domain:hostAddr ip="v4">$(dns_2_v4)$</domain:hostAddr><!-- @endif -->
+            <!-- @if ( '$(dns_2_v6)$' ) --><domain:hostAddr ip="v6">$(dns_2_v6)$</domain:hostAddr><!-- @endif -->
+          </domain:hostAttr>
+          <!-- @if ( '$(dns_3)$' ) -->
+            <domain:hostAttr>
+              <domain:hostName>$(dns_3)$</domain:hostName>
+          <!-- @endif -->
+              <!-- @if ( '$(dns_3_v4)$' ) --><domain:hostAddr ip="v4">$(dns_3_v4)$</domain:hostAddr><!-- @endif -->
+              <!-- @if ( '$(dns_3_v6)$' ) --><domain:hostAddr ip="v6">$(dns_3_v6)$</domain:hostAddr><!-- @endif -->
+          <!-- @if ( '$(dns_3)$' ) -->
+            </domain:hostAttr>
+          <!-- @endif -->
+        </domain:ns>
+        <contact:authInfo>
+          <contact:pw>$(password)$</contact:pw>
+        </contact:authInfo>
+      </domain:create>
+    </create>
+    <extension>
+      <brdomain:create
+      xmlns:brdomain="urn:ietf:params:xml:ns:brdomain-1.0"
+      xsi:schemaLocation="urn:ietf:params:xml:ns:brdomain-1.0
+      brdomain-1.0.xsd">
+      <brdomain:organization>$(org_id)$</brdomain:organization>
+        <brdomain:autoRenew active="$(auto_renew)$"/>
+      </brdomain:create>
+    </extension>
+    <clTRID>$(clTRID)$</clTRID>
+  </command>
+</epp>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
+     epp-1.0.xsd">
+  <command>
+    <update>
+      <domain:update
+       xmlns:domain="urn:ietf:params:xml:ns:domain-1.0"
+       xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0 domain-1.0.xsd">
+        <domain:name>$(domain_name)$</domain:name>
+        <!-- @if ( '$(dns_1)$' || '$(dns_2)$' || '$(dns_3)$' ) -->
+        <domain:rem>
+        <!-- @endif -->
+          <!-- @if ( '$(old_dns_1)$' && '$(dns_1)$' ) -->
+          <domain:hostAttr>
+            <domain:hostName>$(old_dns_1)$</domain:hostName>
+          </domain:hostAttr>
+          <!-- @endif -->
+          <!-- @if ( '$(old_dns_2)$' && '$(dns_2)$' ) -->
+          <domain:hostAttr>
+            <domain:hostName>$(old_dns_2)$</domain:hostName>
+          </domain:hostAttr>
+          <!-- @endif -->
+          <!-- @if ( '$(old_dns_3)$' && '$(dns_3)$' ) -->
+          <domain:hostAttr>
+            <domain:hostName>$(old_dns_3)$</domain:hostName>
+          </domain:hostAttr>
+          <!-- @endif -->
+        <!-- @if ( '$(dns_1)$' || '$(dns_2)$' || '$(dns_3)$' ) -->
+        </domain:rem>
+        <domain:add>
+        <!-- @endif -->
+          <!-- @if ( '$(dns_1)$' ) -->
+          <domain:hostAttr>
+            <domain:hostName>$(dns_1)$</domain:hostName>
+          </domain:hostAttr>
+          <!-- @endif -->
+          <!-- @if ( '$(dns_2)$' ) -->
+          <domain:hostAttr>
+            <domain:hostName>$(dns_2)$</domain:hostName>
+          </domain:hostAttr>
+          <!-- @endif -->
+          <!-- @if ( '$(dns_3)$' ) -->
+          <domain:hostAttr>
+            <domain:hostName>$(dns_3)$</domain:hostName>
+          </domain:hostAttr>
+          <!-- @endif -->
+        <!-- @if ( '$(dns_1)$' || '$(dns_2)$' || '$(dns_3)$' ) -->
+        </domain:add>
+        <!-- @endif -->
+        <!-- @if ( '$(client_id)$' ) -->
+          <domain:rem>
+            <domain:contact type="admin">$(domain_contact_admin)$</domain:contact>
+            <domain:contact type="tech">$(domain_contact_tech)$</domain:contact>
+            <domain:contact type="billing">$(domain_contact_billing)$</domain:contact>
+          </domain:rem>
+          <domain:add>
+            <domain:contact type="admin">$(client_id)$</domain:contact>
+            <domain:contact type="tech">$(client_id)$</domain:contact>
+            <domain:contact type="billing">$(client_id)$</domain:contact>
+          </domain:add>
+        <!-- @endif -->
+      </domain:update>
+    </update>
+    <extension>
+      <brdomain:update
+        xmlns:brdomain="urn:ietf:params:xml:ns:brdomain-1.0"
+        xsi:schemaLocation="urn:ietf:params:xml:ns:brdomain-1.0
+        brdomain-1.0.xsd">
+          <brdomain:ticketNumber>$(domain_ticket)$</brdomain:ticketNumber>
+          <brdomain:chg>
+              <brdomain:autoRenew active="$(auto_renew)$"/>
+          </brdomain:chg>
+      </brdomain:update>
+    </extension>
+    <clTRID>$(clTRID)$</clTRID>
+  </command>
+</epp>

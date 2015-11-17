@@ -1,0 +1,11 @@
+{
+  "name": "registrobr-epp",
+  "version": "1.0.0",
+  "description": "Integration with registrobr",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --timeout 20000 ./spec/"
+  },
+  "author": "",
+  "license": "ISC"
+}
