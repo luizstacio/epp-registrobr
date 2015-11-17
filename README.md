@@ -29,8 +29,7 @@ connection.hello().then((data) => {
   "port": <port>,
   "host": "<host>",
   "login": "<login>",
-  "password": "<password>",
-  "newpassword": "<newpassword>"
+  "password": "<password>"
 }
 ```
 
