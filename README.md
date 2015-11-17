@@ -4,7 +4,6 @@ Modulo para integração epp registrobr.
 ##Sample
 ```
 var Epp = require('registrobr-epp');
-var fs = require('fs');
 var connection;
 
 connection = new Epp({
