@@ -1,12 +1,16 @@
 'use strict';
 
+console.log('\n\n\n\n\n\n\n\n-------------------------------------------------------------------------------------------------------\n\n');
+
+console.log(new Date());
+
 let Util = require('../lib/util');
 let Epp = require('../');
 let gerarcpf = require('gerar-cpf');
 let config = require('../config');
 let cpf = gerarcpf('xxx.xxx.xxx-xx');
-let domain1 = 'mydomainsauro.com.br';
-let domain2 = 'mydomainsauro2.com.br';
+let domain1 = '<meudominio>.com.br';
+let domain2 = '<meudominio2>.com.br';
 let newPassword =  config.newpassword;
 
 console.log(cpf, domain1, domain2);
@@ -21,6 +25,7 @@ function createCallback(promise, name) {
 
 function handlerError(err) {
   console.log('error: ', err);
+  connection.logout();
 }
 
 //**
@@ -58,49 +63,78 @@ connection.login().then(() => {
   
   console.log('Login com nova senha');
 
-  //** todos
-  console.log('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n ComandosContato \n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n');
-  ComandosContato().then((client_id) => {
-    
-    console.log('\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n');
-    
-    console.log('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n ComandosOrganizacao \n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n');
-    ComandosOrganizacao(client_id).then((org_id) => {
+  if ( !process.env.CLIENT ) {
+
+
+    console.log('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n ComandosContato \n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n');
+    ComandosContato().then((client_id) => {
       
       console.log('\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n');
-    
-      console.log('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n ComandosDominio \n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n');
-      ComandosDominio(org_id).then(() => {
-
+      
+      console.log('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n ComandosOrganizacao \n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n');
+      ComandosOrganizacao(client_id).then((org_id) => {
+        
         console.log('\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n');
+      
+        console.log('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n ComandosDominio \n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n');
+        ComandosDominio(org_id).then((ticket) => {
 
-        console.log('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n ComandosDominio2 \n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n');
-        ComandosDominio2(cpf).then((data) => {
-          
           console.log('\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n');
 
-          console.log('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n ComandosMessageria \n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n');
-          ComandosMessageria().then((data) => {
+          console.log('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n ComandosDominio2 \n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n');
+          ComandosDominio2(org_id).then((data) => {
             
             console.log('\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n');
-          
-            console.log('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n ComandosUpdateOrganizacao \n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n');
-            ComandosUpdateOrganizacao(cpf).then(() => {
 
+            console.log('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n ComandosMessageria \n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n');
+            ComandosMessageria().then((data) => {
+
+              
               console.log('\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n');
+              
+              console.log('\n\n\n\n//////////////////////////////////////');
+              console.log('  Dominio: ', domain1);
+              console.log('  Org: ', cpf);
+              console.log('  Ticket: ', ticket);
+              console.log('  Client Id: ', client_id);
+              console.log('//////////////////////////////////////\n\n');
 
-              console.log('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n ComandosUpdateDomain \n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n');
-              ComandosUpdateDomain().then(() => {
+              console.log('\n\n\n\n Aguarde de 10~20minutos e execute o comando "CLIENT='+ cpf +' node homologation/index.js >> log.txt"');
 
-                console.log('\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n');
-
-              }).catch(handlerError);
+              connection.logout();
             }).catch(handlerError);
           }).catch(handlerError);
         }).catch(handlerError);
       }).catch(handlerError);
     }).catch(handlerError);
-  }).catch(handlerError);
+    
+  }  else {
+
+    connection.domain_info(domain1).then((data) => {
+
+      console.log('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n ComandosUpdateOrganizacao \n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n');
+      ComandosUpdateOrganizacao(process.env.CLIENT).then(() => {
+
+        console.log('\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n');
+
+        console.log('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n ComandosUpdateDomain \n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n');
+        ComandosUpdateDomain().then(() => {
+
+          console.log(new Date());
+          console.log('\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n');
+          connection.logout();
+
+        }).catch(handlerError);
+      }).catch(handlerError);
+    }).catch(function (data) {
+      console.log(data);
+      console.log('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n Dominio não publicado, arguarde. \n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n');
+      connection.logout();
+    });
+  }
+
+
+
 }).catch(handlerError);
 
 //**
@@ -161,6 +195,8 @@ function ComandosUpdateDomain () {
               connection.domain_delete(domain2).then((data) => {
 
                 console.log('Domain deleted', data);
+
+                defer.resolve();
 
               }).catch(handlerError);
             }).catch(handlerError);
@@ -299,19 +335,20 @@ function ComandosDominio (org_id) {
       console.log('Dominio create: ', data);
 
       connection.domain_info(domain, data.domain_ticket).then((data) => {
+        var ticket = data.domain_ticket;
 
-        console.log('Tiket info ', data.domain_ticket, ': ', data);
+        console.log('Tiket info ', ticket, ': ', data);
 
         connection.domain_update({
           domain_name: domain,
-          domain_ticket: data.domain_ticket,
+          domain_ticket: ticket,
           dns_1:  'ns1.digitalocean.com',
           dns_2: 'ns2.digitalocean.com'
         }).then((data) => {
 
-          console.log('Ticket update', data.domain_ticket, ': ', data);
+          console.log('Ticket update', ticket, ': ', data);
 
-           defer.resolve(data);
+           defer.resolve(ticket);
         }).catch(handlerError);
       }).catch(handlerError);
     }).catch(handlerError);

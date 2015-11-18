@@ -1,10 +1,4 @@
 {
-  "ssl": true,
-  "key": "./cert/client.pem",
-  "cert": "./cert/client.pem",
-  "ca": ["./cert/client.pem"],
-  "port": 700,
-  "host": "beta.registro.br",
   "login": "<login>",
   "password": "<password>",
   "newpassword": "<newpassword>"
