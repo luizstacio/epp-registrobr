@@ -2,15 +2,15 @@
 
 console.log('\n\n\n\n\n\n\n\n-------------------------------------------------------------------------------------------------------\n\n');
 
-console.log(new Date());
+console.log('Inical date: ', new Date());
 
 let Util = require('../lib/util');
 let Epp = require('../');
 let gerarcpf = require('gerar-cpf');
-let config = require('../config');
+let config = require('../config.homologation.json');
 let cpf = gerarcpf('xxx.xxx.xxx-xx');
-let domain1 = '<meudominio>.com.br';
-let domain2 = '<meudominio2>.com.br';
+let domain1 = config.domain_1;
+let domain2 = config.domain_2;
 let newPassword =  config.newpassword;
 
 console.log(cpf, domain1, domain2);
@@ -92,14 +92,13 @@ connection.login().then(() => {
               
               console.log('\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n');
               
-              console.log('\n\n\n\n//////////////////////////////////////');
+              console.log('\n\n\n\n//////////////////////////////////////\n');
               console.log('  Dominio: ', domain1);
               console.log('  Org: ', cpf);
               console.log('  Ticket: ', ticket);
               console.log('  Client Id: ', client_id);
+              console.log('  Aguarde de 10~20minutos e execute o comando "CLIENT='+ cpf +' node homologation/index.js >> log.txt\n"');
               console.log('//////////////////////////////////////\n\n');
-
-              console.log('\n\n\n\n Aguarde de 10~20minutos e execute o comando "CLIENT='+ cpf +' node homologation/index.js >> log.txt"');
 
               connection.logout();
             }).catch(handlerError);
@@ -120,7 +119,7 @@ connection.login().then(() => {
         console.log('\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n ComandosUpdateDomain \n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n');
         ComandosUpdateDomain().then(() => {
 
-          console.log(new Date());
+          console.log('End date: ', new Date(), '\n\n\n');
           console.log('\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n');
           connection.logout();
 
@@ -282,12 +281,12 @@ function ComandosDominio2 (org_id) {
       connection.domain_create({
         domain_name: domain,
         domain_period: 1,
-        dns_1: 'ns1.digitalocean.com',
-        dns_2: 'ns2.digitalocean.com',
-        dns_2_v4: '107.170.185.182',
-        dns_3: 'ns3.digitalocean.com',
-        dns_3_v4: '107.170.185.182',
-        dns_3_v6: '2604:a880:0:1010::3e:e001',
+        dns_1: config.dns_1,
+        dns_2: config.dns_2,
+        dns_2_v4: config.dns_2_v4,
+        dns_3: config.dns_3,
+        dns_3_v4: config.dns_3_v4,
+        dns_3_v6: config.dns_3_v6,
         org_id: org_id,
         auto_renew: 0
       }).then((data) => {
@@ -322,12 +321,12 @@ function ComandosDominio (org_id) {
     connection.domain_create({
       domain_name: domain,
       domain_period: 1,
-      dns_1: 'ns1.digitalocean.com',
-      dns_2: 'ns2.digitalocean.com',
-      dns_2_v4: '107.170.185.182',
-      dns_3: 'ns3.digitalocean.com',
-      dns_3_v4: '107.170.185.182',
-      dns_3_v6: '2604:a880:0:1010::3e:e001',
+      dns_1: config.dns_1,
+      dns_2: config.dns_2,
+      dns_2_v4: config.dns_2_v4,
+      dns_3: config.dns_3,
+      dns_3_v4: config.dns_3_v4,
+      dns_3_v6: config.dns_3_v6,
       org_id: org_id,
       auto_renew: 0
     }).then((data) => {
@@ -342,8 +341,8 @@ function ComandosDominio (org_id) {
         connection.domain_update({
           domain_name: domain,
           domain_ticket: ticket,
-          dns_1:  'ns1.digitalocean.com',
-          dns_2: 'ns2.digitalocean.com'
+          dns_1:  config.dns_1,
+          dns_2: config.dns_2
         }).then((data) => {
 
           console.log('Ticket update', ticket, ': ', data);

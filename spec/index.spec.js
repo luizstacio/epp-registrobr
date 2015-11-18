@@ -2,7 +2,7 @@
 
 let assert = require('assert');
 let gerarcpf = require('gerar-cpf');
-let config = require('../config.json');
+let config = require('../config.homologation.json');
 let Epp = require('../');
 let epp = new Epp(config);
 
