@@ -1,0 +1,23 @@
+{
+  "name": "registrobr-epp",
+  "version": "1.0.0",
+  "description": "Integration with registrobr",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --timeout 20000 ./spec/"
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": ">= 5.0.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^3.10.1",
+    "q": "^1.4.1",
+    "xml2json": "^0.9.0"
+  },
+  "devDependencies": {
+    "gerar-cpf": "^1.3.0"
+  }
+}

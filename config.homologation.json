@@ -1,0 +1,13 @@
+{
+  "login": "<login>",
+  "password": "<password>",
+  "newpassword": "<newpassword>",
+  "domain_1": "<meudominio1>",
+  "domain_2": "<meudominio1>",
+  "dns_1": "<dns_1>",
+  "dns_2": "<dns_2>",
+  "dns_2_v4": "<dns_2_v4>",
+  "dns_3": "<dns_3>",
+  "dns_3_v4": "<dns_3_v4>",
+  "dns_3_v6": "<dns_3_v6>"
+}
