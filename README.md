@@ -19,7 +19,7 @@ connection.hello().then((data) => {
 });
 ```
 
-##Posible configs
+##Configs
 ```
 {
   "ssl": <ssl>,
