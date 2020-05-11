@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lodash": "^3.10.1",
+    "lodash": "^4.17.15",
     "q": "^1.4.1",
     "xml2json": "^0.9.0"
   },
