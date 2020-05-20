@@ -1,7 +1,7 @@
 # epp-registrobr
 Modulo para integração epp registrobr.
 
-##Sample
+## Sample
 ```
 var Epp = require('registrobr-epp');
 var fs = require('fs');
@@ -19,7 +19,7 @@ connection.hello().then((data) => {
 });
 ```
 
-##Configs
+## Configs
 ```
 {
   "ssl": <ssl>,
@@ -33,7 +33,7 @@ connection.hello().then((data) => {
 }
 ```
 
-##Methods
+## Methods
 ```
 connection.hello(...);
 connection.login(...);
